@@ -1,14 +1,5 @@
 {
-  "name": "excel-online-client",
-  "version": "0.1.0",
-  "description": "A thin wrapper for Microsoft Graph API",
-  "main": "index.js",
-  "scripts": {
-    "test": "test"
-  },
-  "keywords": [
-    "Excel"
-  ],
-  "author": "sengokyu",
-  "license": "MIT"
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
 }
