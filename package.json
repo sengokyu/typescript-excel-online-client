@@ -3,5 +3,8 @@
     "@tsconfig/node18": "^18.2.2",
     "esbuild": "^0.19.4",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "^3.0.7"
   }
 }
