@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "build": "node build.mjs"
+  },
   "devDependencies": {
     "@microsoft/microsoft-graph-types": "^2.38.0",
     "@tsconfig/node18": "^18.2.2",
