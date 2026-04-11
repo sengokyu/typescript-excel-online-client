@@ -13,14 +13,15 @@ Also require.
 ```console
 npm install @azure/indentity @microsoft/microsoft-graph-client
 ```
+
 ## Usage
 
 ```typescript
 // Create credential
 const credential = new ClientSecretCredential(
-  'Tenant ID of your Azure Active Directory',
-  'Client ID of your Azure Active Directory application',
-  'Client secret of your Azure Active Directory application'
+  "Tenant ID of your Tenant",
+  "Client ID of your Entra ID application",
+  "Client secret of your Entra ID application",
 );
 
 // Create Authentication provider
@@ -32,17 +33,29 @@ const authProvider = new TokenCredentialAuthenticationProvider(credential, {
 const client = ExcelOnlineClient.initWithMiddleware({ authProvider });
 
 // Open workbook by name
-const workbook = await client.open("me/drive/root:/Excel/ExcelGraphSample.xlsx");
+const workbook = await client.open(
+  "me/drive/root:/Excel/ExcelGraphSample.xlsx",
+);
 
 // Get worksheet by name
 const worksheet = await workbook.getWorksheet("Sheet1");
 
 // Get range by address
-const values = await worksheet.getRange("A1:X10");
+const range = await worksheet.getRange("A1:X10");
 
-for (const row of values) {
-    for (const column of row) {
-        console.log(column);
-    }
+for (const row of range) {
+  for (const column of row) {
+    console.log(column);
+  }
 }
 ```
+
+## See also
+
+- Dependent packages
+  - https://www.npmjs.com/package/@microsoft/kiota-authentication-azure
+  - https://www.npmjs.com/package/@microsoft/msgraph-sdk
+  - https://www.npmjs.com/package/@microsoft/msgraph-sdk-drives
+- Document
+  - [Microsoft Graph REST API v1.0 endpoint reference](https://learn.microsoft.com/en-us/graph/api/overview)
+  - [Working with Excel in Microsoft Graph](https://learn.microsoft.com/en-us/graph/api/resources/excel)
