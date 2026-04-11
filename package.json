@@ -14,7 +14,7 @@
     "ts-jest": "^29.1.5",
     "typescript": "^6.0.2"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@microsoft/kiota-authentication-azure": "^1.0.0-preview.93",
     "@microsoft/msgraph-sdk": "^1.0.0-preview.55",
     "@microsoft/msgraph-sdk-drives": "^1.0.0-preview.55"
