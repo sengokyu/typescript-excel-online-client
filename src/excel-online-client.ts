@@ -1,14 +1,19 @@
-import * as graph from "@microsoft/microsoft-graph-client";
+import type { AuthenticationProvider } from "@microsoft/kiota-abstractions";
+import {
+  createGraphServiceClient,
+  GraphRequestAdapter,
+  GraphServiceClient,
+} from "@microsoft/msgraph-sdk";
 import { Workbook } from "./workbook";
 
 /**
- * A thin wrapper of Client
+ * A thin wrapper for MS graph api
  */
 export class ExcelOnlineClient {
   /**
    * cTor
    */
-  private constructor(private readonly client: graph.Client) {}
+  private constructor(private readonly client: GraphServiceClient) {}
 
   /**
    * Create a instance.
@@ -17,29 +22,26 @@ export class ExcelOnlineClient {
    * @param options
    * @returns
    */
-  static init(options: graph.Options): ExcelOnlineClient {
-    return new ExcelOnlineClient(graph.Client.init(options));
+  static createInstance(
+    authenticationProvider: AuthenticationProvider
+  ): ExcelOnlineClient {
+    const requestAdapter = new GraphRequestAdapter(authenticationProvider);
+    const client = createGraphServiceClient(requestAdapter);
+
+    return new ExcelOnlineClient(client);
   }
 
   /**
-   * Create a instance.
-   * @public
-   * @static
-   * @param clientOptions
-   * @returns
+   * GraphServiceClient
    */
-  static initWithMiddleware(
-    clientOptions: graph.ClientOptions
-  ): ExcelOnlineClient {
-    return new ExcelOnlineClient(
-      graph.Client.initWithMiddleware(clientOptions)
-    );
+  public get underlyingObject(): GraphServiceClient {
+    return this.client;
   }
 
   /**
    * Open a workbook
    */
-  public open(workbookPath: string): Promise<Workbook> {
-    return Workbook.init(this.client, workbookPath);
+  public openWorkbook(workbookPath: string): Promise<Workbook> {
+    return Workbook.createInstance(this.client, workbookPath);
   }
 }

@@ -1,16 +1,16 @@
-import * as graph from "@microsoft/microsoft-graph-client";
-import * as url from "url";
-import { Table } from "./table";
-import { WorkbookRange } from "@microsoft/microsoft-graph-types";
+import { GraphServiceClient } from "@microsoft/msgraph-sdk";
+import { Cell } from "./cell";
 
 /**
  *
  */
 export class Worksheet {
   private constructor(
-    private readonly client: graph.Client,
-    private readonly worksheetPath: string
-  ) {}
+    private readonly client: GraphServiceClient,
+    private readonly worksheetPath: string,
+  ) {
+    // TODO
+  }
 
   /**
    *
@@ -18,27 +18,14 @@ export class Worksheet {
    * @param worksheetPath
    */
   static async init(
-    client: graph.Client,
-    worksheetPath: string
+    client: GraphServiceClient,
+    worksheetPath: string,
   ): Promise<Worksheet> {
     // Check existence.
-    await client.api(worksheetPath).select(["id"]).get();
+
+    // TODO
 
     return new Worksheet(client, worksheetPath);
-  }
-
-  /**
-   *
-   * @param idOrName
-   * @returns
-   */
-  async getTable(idOrName: string): Promise<Table> {
-    const api = url.resolve(
-      this.worksheetPath,
-      `tables/${encodeURIComponent(idOrName)}`
-    );
-
-    return Table.init(this.client, api);
   }
 
   /**
@@ -46,13 +33,7 @@ export class Worksheet {
    * @param address
    * @returns
    */
-  async getRangeValues(address: string): Promise<string[][]> {
-    const api = url.resolve(this.worksheetPath, `range(address='${address}')`);
-    const response = (await this.client
-      .api(api)
-      .select("values")
-      .get()) as WorkbookRange;
-
-    return response.values as string[][];
+  async getRange(address: string): Promise<Cell[][]> {
+    // TODO
   }
 }

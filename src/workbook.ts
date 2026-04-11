@@ -1,4 +1,5 @@
-import * as graph from "@microsoft/microsoft-graph-client";
+import { GraphServiceClient } from "@microsoft/msgraph-sdk";
+import "@microsoft/msgraph-sdk-drives";
 import * as url from "url";
 import { Worksheet } from "./worksheet";
 
@@ -7,9 +8,11 @@ import { Worksheet } from "./worksheet";
  */
 export class Workbook {
   private constructor(
-    private readonly client: graph.Client,
-    private readonly workbookPath: string
-  ) {}
+    private readonly client: GraphServiceClient,
+    private readonly workbookPath: string,
+  ) {
+    // TODO
+  }
 
   /**
    *
@@ -17,12 +20,13 @@ export class Workbook {
    * @param workbookPath
    * @returns
    */
-  static async init(
-    client: graph.Client,
-    workbookPath: string
+  static async createInstance(
+    client: GraphServiceClient,
+    workbookPath: string,
   ): Promise<Workbook> {
     // Check existence.
-    await client.api(workbookPath).select(["id"]).get();
+
+    // TODO
 
     return new Workbook(client, workbookPath);
   }
@@ -35,7 +39,7 @@ export class Workbook {
   public getWorksheet(idOrName: string): Promise<Worksheet> {
     const api = url.resolve(
       this.workbookPath,
-      `worksheets/${encodeURIComponent(idOrName)}`
+      `worksheets/${encodeURIComponent(idOrName)}`,
     );
 
     return Worksheet.init(this.client, api);
