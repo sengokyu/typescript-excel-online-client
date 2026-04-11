@@ -1,3 +1,4 @@
+
 # Excel Online Client
 
 A thin wrapper for Microsoft Graph API.
@@ -44,8 +45,8 @@ const worksheet = await workbook.getWorksheet("Sheet1");
 const range = await worksheet.getRange("A1:X10");
 
 for (const row of range) {
-  for (const column of row) {
-    console.log(column);
+  for (const cell of row) {
+    console.log(cell.value);
   }
 }
 ```
