@@ -4,7 +4,7 @@ import {
   GraphRequestAdapter,
   GraphServiceClient,
 } from "@microsoft/msgraph-sdk";
-import { Workbook } from "./workbook";
+import { Workbook } from "./workbook.js";
 
 /**
  * A thin wrapper for MS graph api

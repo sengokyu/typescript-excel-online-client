@@ -1,1 +1,1 @@
-export * from "./excel-online-client";
+export * from "./excel-online-client.js";
