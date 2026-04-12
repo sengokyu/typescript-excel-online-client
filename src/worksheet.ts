@@ -1,7 +1,7 @@
 import { GraphServiceClient } from "@microsoft/msgraph-sdk";
 import "@microsoft/msgraph-sdk-drives";
-import { Cell } from "./cell";
-import { convertRangeToCells } from "./range-converter";
+import { Cell } from "./cell.js";
+import { convertRangeToCells } from "./range-converter.js";
 
 /**
  *

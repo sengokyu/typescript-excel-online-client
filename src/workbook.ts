@@ -1,6 +1,6 @@
 import { GraphServiceClient } from "@microsoft/msgraph-sdk";
 import "@microsoft/msgraph-sdk-drives";
-import { Worksheet } from "./worksheet";
+import { Worksheet } from "./worksheet.js";
 
 /**
  *

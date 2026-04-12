@@ -4,7 +4,7 @@ import {
   isUntypedNull,
   type UntypedNode,
 } from "@microsoft/kiota-abstractions";
-import { Cell, type ValueType } from "./cell";
+import { Cell, type ValueType } from "./cell.js";
 
 function extractCellValue(
   node: UntypedNode,
