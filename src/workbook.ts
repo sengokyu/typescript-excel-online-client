@@ -1,6 +1,5 @@
 import { GraphServiceClient } from "@microsoft/msgraph-sdk";
 import "@microsoft/msgraph-sdk-drives";
-import * as url from "url";
 import { Worksheet } from "./worksheet";
 
 /**
@@ -9,26 +8,36 @@ import { Worksheet } from "./worksheet";
 export class Workbook {
   private constructor(
     private readonly client: GraphServiceClient,
-    private readonly workbookPath: string,
-  ) {
-    // TODO
-  }
+    private readonly driveId: string,
+    private readonly itemId: string,
+  ) {}
 
   /**
    *
    * @param client
-   * @param workbookPath
+   * @param driveId
+   * @param itemId
    * @returns
    */
   static async createInstance(
     client: GraphServiceClient,
-    workbookPath: string,
+    driveId: string,
+    itemId: string,
   ): Promise<Workbook> {
-    // Check existence.
+    const workbook = await client.drives
+      .byDriveId(driveId)
+      .items
+      .byDriveItemId(itemId)
+      .workbook
+      .get();
 
-    // TODO
+    if (!workbook) {
+      throw new Error(
+        `Workbook not found for driveId='${driveId}', itemId='${itemId}'.`,
+      );
+    }
 
-    return new Workbook(client, workbookPath);
+    return new Workbook(client, driveId, itemId);
   }
 
   /**
@@ -37,11 +46,6 @@ export class Workbook {
    * @returns
    */
   public getWorksheet(idOrName: string): Promise<Worksheet> {
-    const api = url.resolve(
-      this.workbookPath,
-      `worksheets/${encodeURIComponent(idOrName)}`,
-    );
-
-    return Worksheet.init(this.client, api);
+    return Worksheet.createInstance(this.client, this.driveId, this.itemId, idOrName);
   }
 }

@@ -1,5 +1,7 @@
 import { GraphServiceClient } from "@microsoft/msgraph-sdk";
+import "@microsoft/msgraph-sdk-drives";
 import { Cell } from "./cell";
+import { convertRangeToCells } from "./range-converter";
 
 /**
  *
@@ -7,25 +9,35 @@ import { Cell } from "./cell";
 export class Worksheet {
   private constructor(
     private readonly client: GraphServiceClient,
-    private readonly worksheetPath: string,
-  ) {
-    // TODO
-  }
+    private readonly driveId: string,
+    private readonly itemId: string,
+    private readonly worksheetId: string,
+  ) {}
 
   /**
    *
    * @param client
-   * @param worksheetPath
+   * @param driveId
+   * @param itemId
+   * @param worksheetId
    */
-  static async init(
+  static async createInstance(
     client: GraphServiceClient,
-    worksheetPath: string,
+    driveId: string,
+    itemId: string,
+    worksheetId: string,
   ): Promise<Worksheet> {
-    // Check existence.
+    const worksheet = await client.drives
+      .byDriveId(driveId)
+      .items.byDriveItemId(itemId)
+      .workbook.worksheets.byWorkbookWorksheetId(worksheetId)
+      .get();
 
-    // TODO
+    if (!worksheet) {
+      throw new Error(`Worksheet '${worksheetId}' not found.`);
+    }
 
-    return new Worksheet(client, worksheetPath);
+    return new Worksheet(client, driveId, itemId, worksheetId);
   }
 
   /**
@@ -34,6 +46,17 @@ export class Worksheet {
    * @returns
    */
   async getRange(address: string): Promise<Cell[][]> {
-    // TODO
+    const range = await this.client.drives
+      .byDriveId(this.driveId)
+      .items.byDriveItemId(this.itemId)
+      .workbook.worksheets.byWorkbookWorksheetId(this.worksheetId)
+      .rangeWithAddress(address)
+      .get();
+
+    if (!range) {
+      return [];
+    }
+
+    return convertRangeToCells(range);
   }
 }

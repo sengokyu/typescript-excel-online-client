@@ -19,11 +19,11 @@ export class ExcelOnlineClient {
    * Create a instance.
    * @public
    * @static
-   * @param options
+   * @param authenticationProvider
    * @returns
    */
   static createInstance(
-    authenticationProvider: AuthenticationProvider
+    authenticationProvider: AuthenticationProvider,
   ): ExcelOnlineClient {
     const requestAdapter = new GraphRequestAdapter(authenticationProvider);
     const client = createGraphServiceClient(requestAdapter);
@@ -40,8 +40,10 @@ export class ExcelOnlineClient {
 
   /**
    * Open a workbook
+   * @param driveId The drive ID (e.g. the ID of the user's OneDrive)
+   * @param itemId The drive item ID of the Excel file
    */
-  public openWorkbook(workbookPath: string): Promise<Workbook> {
-    return Workbook.createInstance(this.client, workbookPath);
+  public openWorkbook(driveId: string, itemId: string): Promise<Workbook> {
+    return Workbook.createInstance(this.client, driveId, itemId);
   }
 }
