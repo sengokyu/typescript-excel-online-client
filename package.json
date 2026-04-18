@@ -1,5 +1,20 @@
 {
   "name": "xls-graph-client",
+  "version": "0.0.1",
+  "author": "sengokyu <sengoyu+gh@gmail.com>",
+  "description": "A thin wrapper for Microsoft Excel Graph API",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sengokyu/typescript-excel-online-client.git"
+  },
+  "keywords": [
+    "excel",
+    "microsoft",
+    "msgraph"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/sengokyu/typescript-excel-online-client",
+  "readme": "README.md",
   "type": "module",
   "exports": {
     ".": {
