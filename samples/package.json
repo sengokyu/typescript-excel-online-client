@@ -7,7 +7,7 @@
     "@microsoft/kiota-authentication-azure": "^1.0.0-preview.100",
     "@microsoft/msgraph-sdk": "^1.0.0-preview.55",
     "@microsoft/msgraph-sdk-drives": "^1.0.0-preview.55",
-    "excel-graph-client": "file:.."
+    "xls-graph-client": "file:.."
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",

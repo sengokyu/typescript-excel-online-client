@@ -1,4 +1,5 @@
 {
+  "name": "xls-graph-client",
   "type": "module",
   "exports": {
     ".": {
