@@ -1,4 +1,3 @@
-
 # Excel Online Client
 
 A thin wrapper for Microsoft Graph API.
@@ -49,6 +48,16 @@ for (const row of range) {
     console.log(cell.value);
   }
 }
+
+// Get table by name
+const table = await worksheet.getTable("Table1");
+
+// Get whole table (include header row)
+const tableRange = await table.getRange();
+// Get header row
+const tableHeader = await table.getHeaderRowRange();
+// Get data rows
+const tableBody = await table.getDataBodyRange();
 ```
 
 ## See also
