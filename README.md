@@ -30,7 +30,7 @@ const authProvider = new TokenCredentialAuthenticationProvider(credential, {
 });
 
 // Initialize client
-const client = XlsOnlineClient.initWithMiddleware({ authProvider });
+const client = XlsGraphClient.initWithMiddleware({ authProvider });
 
 // Open workbook by name
 const workbook = await client.open(
@@ -59,6 +59,10 @@ const tableHeader = await table.getHeaderRowRange();
 // Get data rows
 const tableBody = await table.getDataBodyRange();
 ```
+
+## Samples
+
+See samples in [the repository](https://github.com/sengokyu/typescript-excel-online-client/tree/main/samples).
 
 ## See also
 
