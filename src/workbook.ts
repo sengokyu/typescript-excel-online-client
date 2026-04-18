@@ -1,5 +1,6 @@
 import { GraphServiceClient } from "@microsoft/msgraph-sdk";
 import "@microsoft/msgraph-sdk-drives";
+import { Workbook as GraphWorkbook } from "@microsoft/msgraph-sdk/models/index.js";
 import { Worksheet } from "./worksheet.js";
 
 /**
@@ -10,6 +11,7 @@ export class Workbook {
     private readonly client: GraphServiceClient,
     private readonly driveId: string,
     private readonly itemId: string,
+    private readonly workbook: GraphWorkbook,
   ) {}
 
   /**
@@ -26,10 +28,8 @@ export class Workbook {
   ): Promise<Workbook> {
     const workbook = await client.drives
       .byDriveId(driveId)
-      .items
-      .byDriveItemId(itemId)
-      .workbook
-      .get();
+      .items.byDriveItemId(itemId)
+      .workbook.get();
 
     if (!workbook) {
       throw new Error(
@@ -37,7 +37,11 @@ export class Workbook {
       );
     }
 
-    return new Workbook(client, driveId, itemId);
+    return new Workbook(client, driveId, itemId, workbook);
+  }
+
+  public get workbookObject(): GraphWorkbook {
+    return this.workbook;
   }
 
   /**
@@ -46,6 +50,11 @@ export class Workbook {
    * @returns
    */
   public getWorksheet(idOrName: string): Promise<Worksheet> {
-    return Worksheet.createInstance(this.client, this.driveId, this.itemId, idOrName);
+    return Worksheet.createInstance(
+      this.client,
+      this.driveId,
+      this.itemId,
+      idOrName,
+    );
   }
 }

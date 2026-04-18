@@ -1,10 +1,10 @@
 import { GraphServiceClient } from "@microsoft/msgraph-sdk";
-import "@microsoft/msgraph-sdk-drives";
+import { WorkbookWorksheet } from "@microsoft/msgraph-sdk/models/index.js";
 import { Cell } from "./cell.js";
 import { convertRangeToCells } from "./range-converter.js";
-
+import { Table } from "./table.js";
 /**
- *
+ * Excel ワークシートを表すクラス
  */
 export class Worksheet {
   private constructor(
@@ -12,40 +12,53 @@ export class Worksheet {
     private readonly driveId: string,
     private readonly itemId: string,
     private readonly worksheetId: string,
+    private readonly worksheet: WorkbookWorksheet,
   ) {}
 
   /**
-   *
-   * @param client
-   * @param driveId
-   * @param itemId
-   * @param worksheetId
+   * Worksheet インスタンスを生成する
+   * @param client Graph API クライアント
+   * @param driveId ドライブ ID
+   * @param itemId ドライブアイテム ID
+   * @param idOrName ワークシート ID または名前
    */
   static async createInstance(
     client: GraphServiceClient,
     driveId: string,
     itemId: string,
-    worksheetId: string,
+    idOrName: string,
   ): Promise<Worksheet> {
     const worksheet = await client.drives
       .byDriveId(driveId)
       .items.byDriveItemId(itemId)
-      .workbook.worksheets.byWorkbookWorksheetId(worksheetId)
-      .get();
+      .workbook.worksheets.byWorkbookWorksheetId(idOrName)
+      .get({
+        queryParameters: {
+          select: ["id", "name", "position", "visibility", "charts", "tables"],
+        },
+      });
 
     if (!worksheet) {
-      throw new Error(`Worksheet '${worksheetId}' not found.`);
+      throw new Error(`Worksheet '${idOrName}' not found.`);
     }
 
-    return new Worksheet(client, driveId, itemId, worksheetId);
+    const id = worksheet.id ?? idOrName;
+
+    return new Worksheet(client, driveId, itemId, id, worksheet);
   }
 
   /**
-   * Get values of the range
-   * @param address
-   * @returns
+   * 生の WorkbookWorksheet オブジェクト
    */
-  async getRange(address: string): Promise<Cell[][]> {
+  public get worksheetObject(): WorkbookWorksheet {
+    return this.worksheet;
+  }
+
+  /**
+   * 指定アドレスのセル範囲を Cell の2次元配列で返す
+   * @param address セル範囲アドレス（例: "A1:X10"）
+   */
+  public async getRange(address: string): Promise<Cell[][]> {
     const range = await this.client.drives
       .byDriveId(this.driveId)
       .items.byDriveItemId(this.itemId)
@@ -58,5 +71,19 @@ export class Worksheet {
     }
 
     return convertRangeToCells(range);
+  }
+
+  /**
+   * 指定したテーブルを取得する
+   * @param idOrName テーブル ID または名前
+   */
+  public getTable(idOrName: string): Promise<Table> {
+    return Table.createInstance(
+      this.client,
+      this.driveId,
+      this.itemId,
+      this.worksheetId,
+      idOrName,
+    );
   }
 }
