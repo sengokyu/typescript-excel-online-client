@@ -14,7 +14,9 @@
     "build:types": "tsc -p tsconfig.build.json",
     "build:esbuild": "node build.mjs",
     "build": "npm run build:types && npm run build:esbuild",
-    "test": "vitest run"
+    "test": "vitest run",
+    "sample1": "cd samples && npx tsx sample1.ts",
+    "sample2": "cd samples && npx tsx sample2.ts"
   },
   "devDependencies": {
     "@microsoft/microsoft-graph-types": "^2.38.0",
