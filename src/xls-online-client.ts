@@ -9,7 +9,7 @@ import { Workbook } from "./workbook.js";
 /**
  * A thin wrapper for MS graph api
  */
-export class ExcelOnlineClient {
+export class XlsOnlineClient {
   /**
    * cTor
    */
@@ -24,11 +24,11 @@ export class ExcelOnlineClient {
    */
   static createInstance(
     authenticationProvider: AuthenticationProvider,
-  ): ExcelOnlineClient {
+  ): XlsOnlineClient {
     const requestAdapter = new GraphRequestAdapter(authenticationProvider);
     const client = createGraphServiceClient(requestAdapter);
 
-    return new ExcelOnlineClient(client);
+    return new XlsOnlineClient(client);
   }
 
   /**

@@ -5,7 +5,7 @@ A thin wrapper for Microsoft Graph API.
 ## Install
 
 ```console
-npm install excel-graph-client
+npm install xls-graph-client
 ```
 
 Also require.
@@ -30,7 +30,7 @@ const authProvider = new TokenCredentialAuthenticationProvider(credential, {
 });
 
 // Initialize client
-const client = ExcelOnlineClient.initWithMiddleware({ authProvider });
+const client = XlsOnlineClient.initWithMiddleware({ authProvider });
 
 // Open workbook by name
 const workbook = await client.open(
