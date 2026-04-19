@@ -1,6 +1,6 @@
 {
   "name": "xls-graph-client",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "sengokyu <sengoyu+gh@gmail.com>",
   "description": "A thin wrapper for Microsoft Excel Graph API",
   "repository": {
