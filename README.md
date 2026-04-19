@@ -18,19 +18,18 @@ npm install @azure/indentity @microsoft/microsoft-graph-client
 
 ```typescript
 // Create credential
-const credential = new ClientSecretCredential(
-  "Tenant ID of your Tenant",
-  "Client ID of your Entra ID application",
-  "Client secret of your Entra ID application",
-);
+const credential: TokenCredential = /* */;
 
 // Create Authentication provider
 const authProvider = new TokenCredentialAuthenticationProvider(credential, {
-  scopes: ["openid", ".default"],
+  scopes: [
+    "https://graph.microsoft.com/User.Read",
+    "https://graph.microsoft.com/Files.Read",
+  ],
 });
 
 // Initialize client
-const client = XlsGraphClient.initWithMiddleware({ authProvider });
+const client = XlsGraphClient.createInstance(authProvider);
 
 // Open workbook by name
 const workbook = await client.open("driveId", "itemIdOrName");
