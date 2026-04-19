@@ -33,31 +33,25 @@ const authProvider = new TokenCredentialAuthenticationProvider(credential, {
 const client = XlsGraphClient.initWithMiddleware({ authProvider });
 
 // Open workbook by name
-const workbook = await client.open(
-  "me/drive/root:/Excel/ExcelGraphSample.xlsx",
-);
-
-// Get worksheet by name
-const worksheet = await workbook.getWorksheet("Sheet1");
+const workbook = await client.open("driveId", "itemIdOrName");
 
 // Get range by address
-const range = await worksheet.getRange("A1:X10");
+const range = await workbook.worksheets("Sheet1").getRange("A1:X10");
+
+// Get whole table (include header row)
+const tableRange = await workbook.tables("Table1").getRange();
+
+// Get header row
+const tableHeader = await workbook.tables("Table1").getHeaderRowRange();
+
+// Get data rows
+const tableBody = await workbook.tables("Table1").getDataBodyRange();
 
 for (const row of range) {
   for (const cell of row) {
     console.log(cell.value);
   }
 }
-
-// Get table by name
-const table = await worksheet.getTable("Table1");
-
-// Get whole table (include header row)
-const tableRange = await table.getRange();
-// Get header row
-const tableHeader = await table.getHeaderRowRange();
-// Get data rows
-const tableBody = await table.getDataBodyRange();
 ```
 
 ## Samples
