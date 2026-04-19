@@ -18,9 +18,8 @@ const authProvider = new AzureIdentityAuthenticationProvider(
 
 const client = XlsGraphClient.createInstance(authProvider);
 
-const workbook = await client.openWorkbook(config.driveId, config.itemId);
-const worksheet = await workbook.getWorksheet(sheetName);
-const range = await worksheet.getRange(rangeAddress);
+const workbook = await client.open(config.driveId, config.itemId);
+const range = await workbook.worksheets(sheetName).getRange(rangeAddress);
 
 for (const row of range) {
   for (const cell of row) {
