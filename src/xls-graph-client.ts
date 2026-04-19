@@ -41,9 +41,9 @@ export class XlsGraphClient {
   /**
    * Open a workbook
    * @param driveId The drive ID (e.g. the ID of the user's OneDrive)
-   * @param itemId The drive item ID of the Excel file
+   * @param idOrName The drive item ID of the Excel file
    */
-  public openWorkbook(driveId: string, itemId: string): Promise<Workbook> {
-    return Workbook.createInstance(this.client, driveId, itemId);
+  public open(driveId: string, idOrName: string): Promise<Workbook> {
+    return Workbook.createInstance(this.client, driveId, idOrName);
   }
 }
