@@ -20,8 +20,8 @@ const client = XlsGraphClient.createInstance(authProvider);
 const workbook = await client.open(config.driveId, config.itemId);
 const range = await workbook.tables(tableName).getRange();
 
-for (const row of range) {
-  for (const cell of row) {
-    console.log(cell.value);
-  }
-}
+range.forEach((row, rowIndex) => {
+  row.forEach((cell, colIndex) => {
+    console.log(`Value at ${colIndex},${rowIndex}: ${cell.value}`);
+  });
+});
