@@ -1,21 +1,11 @@
-import { setLogLevel } from "@azure/logger";
-import { AzureIdentityAuthenticationProvider } from "@microsoft/kiota-authentication-azure";
 import { XlsGraphClient } from "xls-graph-client";
 import { config } from "./config.js";
 import { BrowserInteractiveCredential } from "./credential.js";
 
-setLogLevel("error");
-
 const sheetName = "Sheet1";
 const rangeAddress = "A1:C3";
 
-const credential = new BrowserInteractiveCredential(config);
-const authProvider = new AzureIdentityAuthenticationProvider(
-  credential,
-  config.scopes,
-  { tenantId: config.tenantId, enableCae: false },
-);
-
+const authProvider = new BrowserInteractiveCredential(config);
 const client = XlsGraphClient.createInstance(authProvider);
 
 const workbook = await client.open(config.driveId, config.itemId);
