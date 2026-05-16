@@ -11,22 +11,16 @@ npm install xls-graph-client
 Also require.
 
 ```console
-npm install @azure/indentity @microsoft/microsoft-graph-client
+npm install @microsoft/msgraph-sdk @microsoft/msgraph-sdk-drives
 ```
 
 ## Usage
 
 ```typescript
-// Create credential
-const credential: TokenCredential = /* */;
+import type { AuthenticationProvider } from "@microsoft/kiota-abstractions";
 
-// Create Authentication provider
-const authProvider = new TokenCredentialAuthenticationProvider(credential, {
-  scopes: [
-    "https://graph.microsoft.com/User.Read",
-    "https://graph.microsoft.com/Files.Read",
-  ],
-});
+// Implement AuthenticationProvider with any OAuth2 library (e.g. openid-client)
+const authProvider: AuthenticationProvider = /* */;
 
 // Initialize client
 const client = XlsGraphClient.createInstance(authProvider);
@@ -60,9 +54,10 @@ See samples in [the repository](https://github.com/sengokyu/typescript-excel-onl
 ## See also
 
 - Dependent packages
-  - https://www.npmjs.com/package/@microsoft/kiota-authentication-azure
   - https://www.npmjs.com/package/@microsoft/msgraph-sdk
   - https://www.npmjs.com/package/@microsoft/msgraph-sdk-drives
+- Authentication
+  - https://www.npmjs.com/package/openid-client
 - Document
   - [Microsoft Graph REST API v1.0 endpoint reference](https://learn.microsoft.com/en-us/graph/api/overview)
   - [Working with Excel in Microsoft Graph](https://learn.microsoft.com/en-us/graph/api/resources/excel)
